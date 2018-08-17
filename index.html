@@ -8,8 +8,12 @@
 </head>
 <body>
 <div id="app">
-    Hola {{ name }}
+    <h1>Hola {{ name }}</h1>
     <a :href="url" target="_blank">Ir a {{ page }}</a>
+    <p v-show="show_message">Mensaje oculto</p>
+    <template v-if="show_template">
+        <p>Foobar</p>
+    </template>
 </div>
 <script src="assets/js/vue.js"></script>
 <script type="text/javascript">
@@ -18,7 +22,9 @@
         data: {
             name: 'Michael',
             url: 'https://google.com',
-            page: 'Google'
+            page: 'Google',
+            show_message: false,
+            show_template: false
         }
     });
 </script>
