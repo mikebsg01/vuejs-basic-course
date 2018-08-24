@@ -2,15 +2,19 @@
 #app
 	h1 {{ msg }}
 	ul
-		li(v-for="artist in artists") {{ artist.name }}
+		artist(v-for="artist in artists", :artist="artist", :key="artist.mbid")
 </template>
 
 <script>
+import Artist from './components/Artist'
 import getArtists from './api'
 
 export default {
-	 name: 'app',
- 	 data () {
+	name: 'app',
+	components: {
+		Artist
+	},
+ 	data () {
     		return {
 			msg: 'Hello World',
 			artists: []
