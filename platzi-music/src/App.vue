@@ -3,18 +3,21 @@
 	h1 {{ msg }}
 	select(v-model="selectedCountry")
 		option(v-for="country in countries", :value="country.value") {{ country.name }}
+	spinner(v-show="loading")
 	ul
 		artist(v-for="artist in artists", :artist="artist", :key="artist.mbid")
 </template>
 
 <script>
 import Artist from './components/Artist'
+import Spinner from './components/Spinner'
 import getArtists from './api'
 
 export default {
 	name: 'app',
 	components: {
-		Artist
+		Artist,
+		Spinner
 	},
  	data () {
     		return {
@@ -26,13 +29,16 @@ export default {
 				{ name: 'Argentina', value: 'argentina' },
 				{ name: 'España', value: 'spain' }
 			],
-			selectedCountry: 'mexico'
+			selectedCountry: 'mexico',
+			loading: true
 		}
 	},
 	methods: {
 		refreshArtist() {
+			this.loading = true
 			getArtists(this.selectedCountry)
 				.then((artists) => {
+					this.loading = false
 					this.artists = artists	
 				})
 		}	
