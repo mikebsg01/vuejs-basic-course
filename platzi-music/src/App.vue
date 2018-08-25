@@ -1,6 +1,8 @@
 <template lang="pug">
 #app
 	h1 {{ msg }}
+	select(v-model="selectedCountry")
+		option(v-for="country in countries", :value="country.value") {{ country.name }}
 	ul
 		artist(v-for="artist in artists", :artist="artist", :key="artist.mbid")
 </template>
@@ -17,14 +19,31 @@ export default {
  	data () {
     		return {
 			msg: 'Hello World',
-			artists: []
+			artists: [],
+			countries: [
+				{ name: 'México', value: 'mexico' },
+				{ name: 'Colombia', value: 'colombia' },
+				{ name: 'Argentina', value: 'argentina' },
+				{ name: 'España', value: 'spain' }
+			],
+			selectedCountry: 'mexico'
 		}
 	},
-	mounted: function () {
-		getArtists()
-			.then((artists) => {
-				this.artists = artists
-			});
+	methods: {
+		refreshArtist() {
+			getArtists(this.selectedCountry)
+				.then((artists) => {
+					this.artists = artists	
+				})
+		}	
+	},
+	mounted () {
+		this.refreshArtist()
+	},
+	watch: {
+		selectedCountry() {
+			this.refreshArtist()
+		}
 	}
 }
 </script>
